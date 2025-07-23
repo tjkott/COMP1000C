@@ -1,0 +1,2 @@
+Compile code:
+gcc -Wall -ansi -pedantic -Werror question2.c -o question2
