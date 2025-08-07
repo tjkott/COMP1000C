@@ -1,0 +1,56 @@
+OLD bounds.c main()
+
+int main(void)
+{
+    printf("Testing bounds checking:\n");
+    // (1) Integer bounds checking
+    //Test #1 - TRUE
+    int int_low = 10, int_high = 20, int_val1 = 15;
+    printf("is %d between %d and %d? Result: %d\n", int_val1, int_low, int_high, 
+        withinRangeInt(int_low, int_high, int_val1));
+    //Test #2 - FALSE
+    int int_val2 = 5;
+    printf("is %d between %d and %d? Result: %d\n", int_val2, int_low, int_high,
+        withinRangeInt(int_low, int_high, int_val2));
+
+    // (2) Doubles bound checking
+    //Test #1 - TRUE
+    printf("Double bounds checking:\n");
+    double double_low = 10.5, double_high = 20.5, double_val1 = 15.5;
+    printf("is %.2f between %.2f and %.2f? Result: %d\n", double_val1, double_low, double_high, 
+        withinRangeDouble(double_low, double_high, double_val1));
+    //Test #2 - FALSE
+    double double_val2 = 25.5;
+    printf("is %.2f between %.2f and %.2f? Result: %d\n", double_val2, double_low, double_high,
+        withinRangeDouble(double_low, double_high, double_val2));
+
+    // (3) Character test
+    printf("Character bounds checking:\n");
+    char char_low = 'a', char_high = 'z', char_val1 = 'm';
+    printf("is '%c' between '%c' and '%c'? Result: %d\n", char_val1, char_low, char_high, 
+        withinRangeChar(char_low, char_high, char_val1));
+    //Test #2 - FALSE
+    char char_val2 = 'A';
+    printf("is '%c' between '%c' and '%c'? Result: %d\n", char_val2, char_low, char_high,
+        withinRangeChar(char_low, char_high, char_val2));
+    printf("End of bounds checking tests.\n");
+    return 0;
+}
+
+OLD powers.c main
+/**
+ * @brief The main function tests the powersInc() function. 
+ * Calls the powersInc() function 32 times to demonstrate the sequence and the overflow protection.
+ * If function is called more than 31 times, an integer oberflow will occur and result will be invalid.  
+ * @return int Returns 0 on successful execution.
+ */
+int main(void)
+{
+    printf("Testing powersInc function:\n");
+    for (int = 0; i < 32; i++)
+    {
+        printf("Next power of 2: %d\n", powersInc());
+    }
+    printf("End of testing.\n");
+    return 0;
+}

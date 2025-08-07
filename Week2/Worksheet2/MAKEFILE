@@ -1,0 +1,48 @@
+# Makefile for the 'bounds' project
+
+# Compiler and Flags
+# CC: The C compiler to use (gcc)
+# CFLAGS: Flags for the C compiler.
+#   -Wall: Enable all warnings.
+#   -pedantic: Issue all warnings demanded by strict ISO C.
+#   -ansi: Conform to the C90 standard.
+#   -Werror: Treat all warnings as errors.
+#   -mconsole: (For MinGW/Windows) Create a console application, not a GUI one.
+CC = gcc
+CFLAGS = -Wall -pedantic -ansi -Werror -mconsole
+
+# Executable Name
+EXEC = bounds
+
+# Object files
+# A list of all the .o files that need to be created and linked.
+OBJ = bounds.o powers.o
+
+# --- Rules ---
+
+# The first rule is the default rule that 'make' will execute.
+# It builds the final executable.
+# The executable depends on all the object files.
+# If any object file is newer than the executable, this rule will run.
+$(EXEC): $(OBJ)
+	$(CC) $(OBJ) -o $(EXEC) $(CFLAGS)
+
+# Rule to compile bounds.c into bounds.o
+# bounds.o depends on its source file (bounds.c) and the header
+# files it includes (macros.h, powers.h).
+# If any of these files are newer than bounds.o, this rule will run.
+bounds.o: bounds.c macros.h powers.h
+	$(CC) -c bounds.c $(CFLAGS)
+
+# Rule to compile powers.c into powers.o
+# powers.o depends on its source file (powers.c) and its header (powers.h).
+# If any of these files are newer than powers.o, this rule will run.
+powers.o: powers.c powers.h
+	$(CC) -c powers.c $(CFLAGS)
+
+# The 'clean' rule is used to remove all generated files.
+# It is not a dependency of the main rule, so it only runs when
+# you explicitly call it with 'make clean'.
+clean:
+	rm -f $(EXEC) $(OBJ)
+
