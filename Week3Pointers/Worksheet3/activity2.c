@@ -67,7 +67,39 @@ int main(void)
     **s = **s / *x;
     print_state("After Case (d)", a, b);
 
-
+    /* Case (e)*/
+    initialise(&a, &b, &x, &y, &s, &t);
+    x = (int*)malloc(sizeof(int));
+    y = (int*)malloc(sizeof(int));
+    *x = 8;
+    *y = 8;
+    if(x == y) {
+        a = *x + *y;
+    }
+    if(*x == *y) {
+        b = *y;
+    }
+    print_state("After Case (e)", a, b);
+    free(x);
+    free(y);
+    x = NULL; /* Avoid dangling pointer */
+    y = NULL; /* Avoid dangling pointer */
+    
+    /* Case (f)*/
+    initialise(&a, &b, &x, &y, &s, &t);
+    s = (int**)malloc(sizeof(int*));
+    *s = (int*)malloc(sizeof(int));
+    t = s;
+    x = *t;
+    **t = b;
+    s = (int**)malloc(sizeof(int*));
+    *s = &a;
+    **s = *x;
+    print_state("After Case (f)", a, b);
+    free(*s);
+    free(s);
+    s = NULL; /* Avoid dangling pointer */
+    t = NULL; /* Avoid dangling pointer */
 
     return 0;
 }
