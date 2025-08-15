@@ -1,0 +1,159 @@
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ gcc memerrors.c -o memerrors
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ ./ memerrors 1
+bash: ./: Is a directory
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ ./memerrors 1
+>0
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ ./memerrors 2
+29655
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ ./memerrors 3
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ ./memerrors 4
+free(): double free detected in tcache 2
+Aborted (core dumped)
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ ./memerrors 5
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ valgrind ./memerrors 1
+==17817== Memcheck, a memory error detector
+==17817== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17817== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==17817== Command: ./memerrors 1
+==17817== 
+==17817== Conditional jump or move depends on uninitialised value(s)
+==17817==    at 0x1092A7: test1 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17817==    by 0x10924E: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17817== 
+<=0
+==17817== 
+==17817== HEAP SUMMARY:
+==17817==     in use at exit: 0 bytes in 0 blocks
+==17817==   total heap usage: 1 allocs, 1 frees, 1,024 bytes allocated
+==17817== 
+==17817== All heap blocks were freed -- no leaks are possible
+==17817== 
+==17817== Use --track-origins=yes to see where uninitialised values come from
+==17817== For lists of detected and suppressed errors, rerun with: -s
+==17817== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ valgrind ./memerrors 2
+==17854== Memcheck, a memory error detector
+==17854== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17854== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==17854== Command: ./memerrors 2
+==17854== 
+==17854== Conditional jump or move depends on uninitialised value(s)
+==17854==    at 0x48EFAD6: __vfprintf_internal (vfprintf-internal.c:1516)
+==17854==    by 0x48D979E: printf (printf.c:33)
+==17854==    by 0x1092F0: test2 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854==    by 0x10925A: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854== 
+==17854== Use of uninitialised value of size 8
+==17854==    at 0x48D32EB: _itoa_word (_itoa.c:177)
+==17854==    by 0x48EEABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==17854==    by 0x48D979E: printf (printf.c:33)
+==17854==    by 0x1092F0: test2 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854==    by 0x10925A: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854== 
+==17854== Conditional jump or move depends on uninitialised value(s)
+==17854==    at 0x48D32FC: _itoa_word (_itoa.c:177)
+==17854==    by 0x48EEABD: __vfprintf_internal (vfprintf-internal.c:1516)
+==17854==    by 0x48D979E: printf (printf.c:33)
+==17854==    by 0x1092F0: test2 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854==    by 0x10925A: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854== 
+==17854== Conditional jump or move depends on uninitialised value(s)
+==17854==    at 0x48EF5C3: __vfprintf_internal (vfprintf-internal.c:1516)
+==17854==    by 0x48D979E: printf (printf.c:33)
+==17854==    by 0x1092F0: test2 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854==    by 0x10925A: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854== 
+==17854== Conditional jump or move depends on uninitialised value(s)
+==17854==    at 0x48EEC05: __vfprintf_internal (vfprintf-internal.c:1516)
+==17854==    by 0x48D979E: printf (printf.c:33)
+==17854==    by 0x1092F0: test2 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854==    by 0x10925A: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17854== 
+0
+==17854== 
+==17854== HEAP SUMMARY:
+==17854==     in use at exit: 0 bytes in 0 blocks
+==17854==   total heap usage: 1 allocs, 1 frees, 1,024 bytes allocated
+==17854== 
+==17854== All heap blocks were freed -- no leaks are possible
+==17854== 
+==17854== Use --track-origins=yes to see where uninitialised values come from
+==17854== For lists of detected and suppressed errors, rerun with: -s
+==17854== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 0 from 0)
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ valgrind ./memerrors 3
+==17861== Memcheck, a memory error detector
+==17861== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17861== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==17861== Command: ./memerrors 3
+==17861== 
+==17861== 
+==17861== HEAP SUMMARY:
+==17861==     in use at exit: 4 bytes in 1 blocks
+==17861==   total heap usage: 1 allocs, 0 frees, 4 bytes allocated
+==17861== 
+==17861== LEAK SUMMARY:
+==17861==    definitely lost: 4 bytes in 1 blocks
+==17861==    indirectly lost: 0 bytes in 0 blocks
+==17861==      possibly lost: 0 bytes in 0 blocks
+==17861==    still reachable: 0 bytes in 0 blocks
+==17861==         suppressed: 0 bytes in 0 blocks
+==17861== Rerun with --leak-check=full to see details of leaked memory
+==17861== 
+==17861== For lists of detected and suppressed errors, rerun with: -s
+==17861== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ valgrind ./memerrors 4
+==17867== Memcheck, a memory error detector
+==17867== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17867== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==17867== Command: ./memerrors 4
+==17867== 
+==17867== Invalid free() / delete / delete[] / realloc()
+==17867==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17867==    by 0x109342: test4 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17867==    by 0x109272: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17867==  Address 0x4aa5040 is 0 bytes inside a block of size 4 free'd
+==17867==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17867==    by 0x109336: test4 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17867==    by 0x109272: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17867==  Block was alloc'd at
+==17867==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17867==    by 0x109326: test4 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17867==    by 0x109272: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17867== 
+==17867== 
+==17867== HEAP SUMMARY:
+==17867==     in use at exit: 0 bytes in 0 blocks
+==17867==   total heap usage: 1 allocs, 2 frees, 4 bytes allocated
+==17867== 
+==17867== All heap blocks were freed -- no leaks are possible
+==17867== 
+==17867== For lists of detected and suppressed errors, rerun with: -s
+==17867== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+STUDENT\22307822@v-2204-hcs-024 [~/COMP1000C/Week3Pointers/Worksheet3]$ valgrind ./memerrors 5
+==17872== Memcheck, a memory error detector
+==17872== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17872== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==17872== Command: ./memerrors 5
+==17872== 
+==17872== Invalid write of size 4
+==17872==    at 0x109370: test5 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17872==    by 0x10927E: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17872==  Address 0x4aa5040 is 0 bytes inside a block of size 4 free'd
+==17872==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17872==    by 0x10936B: test5 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17872==    by 0x10927E: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17872==  Block was alloc'd at
+==17872==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17872==    by 0x10935B: test5 (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17872==    by 0x10927E: main (in /home/22307822/COMP1000C/Week3Pointers/Worksheet3/memerrors)
+==17872== 
+==17872== 
+==17872== HEAP SUMMARY:
+==17872==     in use at exit: 0 bytes in 0 blocks
+==17872==   total heap usage: 1 allocs, 1 frees, 4 bytes allocated
+==17872== 
+==17872== All heap blocks were freed -- no leaks are possible
+==17872== 
+==17872== For lists of detected and suppressed errors, rerun with: -s
+==17872== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+

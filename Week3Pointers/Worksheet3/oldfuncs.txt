@@ -1,0 +1,36 @@
+ int main()
+ {
+    int n1, n2, n3; /* initial values*/
+
+    /* Test 1: Random order*/
+    n1 = 10, n2 =2 , n3 = 5;
+    printState("Initial: ", n1, n2, n3);
+    ascending3(&n1, &n2, &n3);
+    printState("Ascending: ", n1, n2, n3);
+    printf("\n");
+
+    // Test Case 2: Already sorted
+    n1 = 1, n2 = 2, n3 = 3;
+    printState("Initial values", n1, n2, n3);
+    ascending3(&n1, &n2, &n3);
+    printState("Sorted ascending", n1, n2, n3);
+    printf("\n");
+
+    // Test Case 3: Reverse order
+    n1 = 9, n2 = 6, n3 = 3;
+    printState("Initial values", n1, n2, n3);
+    ascending3(&n1, &n2, &n3);
+    printState("Sorted ascending", n1, n2, n3);
+    printf("\n");
+
+
+    printf("--- Testing descending3() ---\n");
+
+    // Test Case 4: Random order
+    n1 = 10, n2 = 2, n3 = 5;
+    printState("Initial values", n1, n2, n3);
+    descending3(&n1, &n2, &n3);
+    printState("Sorted descending", n1, n2, n3);
+    printf("\n");
+
+ }

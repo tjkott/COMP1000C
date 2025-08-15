@@ -37,3 +37,17 @@ void descending3(int *p1, int *p2, int *p3)
     *p1 = *p3; /* 1st element is now the 3rd */
     *p3 = temp; /* 3rd element is now the 1st */
 }
+
+/**
+ * @brief Returns a pointer to a sorting function based on the input character.
+ */
+SortFuncPtr order(char orderType) {
+    SortFuncPtr funcPtr = NULL;
+    if (orderType == 'A' || orderType == 'a'){
+        funcPtr = &ascending3;
+    }
+    else if (orderType == 'D' || orderType == 'd'){
+        funcPtr = &descending3;
+    }
+    return funcPtr;
+}
