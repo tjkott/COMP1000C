@@ -1,0 +1,27 @@
+# Compiler and flags
+CC = gcc
+CFLAGS = -Wall -Werror -std=c99 -g
+
+# Phony targets are ones that don't represent actual files
+.PHONY: all clean
+
+# The 'all' rule is the default. It builds both executables.
+# [cite: 1735-1738]
+all: display generate
+
+# Rule to link the 'display' executable
+# It depends on its own object file (display.o) and the helper (plot.o)
+display: display.o plot.o
+	$(CC) $(CFLAGS) -o display display.o plot.o
+
+# Rule for the 'generate' executable (from the next question)
+generate: generate.o randomarray.o
+	$(CC) $(CFLAGS) -o generate generate.o randomarray.o
+
+# Generic rule to compile any .c file into a .o object file
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Rule to clean up compiled files
+clean:
+	rm -f display generate *.o
