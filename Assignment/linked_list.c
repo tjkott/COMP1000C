@@ -73,4 +73,3 @@ void* remove_first(LinkedList* list, int* error) {
     }
     return data;
 }
-

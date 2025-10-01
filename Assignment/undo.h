@@ -33,4 +33,3 @@ void save_game_state(UndoHistory* history, struct GameState* current_state);
 void restore_game_state(UndoHistory* history, struct GameState* current_state);
 
 #endif /* UNDO_H */
-

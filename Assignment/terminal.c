@@ -1,29 +1,31 @@
-/*
- * terminal.c
- *
- * Implements functions to control terminal settings, specifically for
- * enabling non-canonical mode to read single characters without pressing Enter.
- */
-
 #include <termios.h>
 #include <unistd.h>
 #include "terminal.h"
 
-static struct termios old_settings, new_settings;
+/* Static struct to hold the original terminal settings */
+static struct termios old_settings;
 
 /*
- * Disables character echoing and canonical mode to allow for single-key input.
+ * Disables character echoing and canonical mode (buffered input).
+ * It saves the original terminal settings before modifying them.
  */
-void disable_echo_and_canonical_mode(void) {
+void disableBuffer(void)
+{
+    struct termios new_settings;
+    /* Get current terminal settings and save them in our static struct */
     tcgetattr(STDIN_FILENO, &old_settings);
     new_settings = old_settings;
-    new_settings.c_lflag &= ~(ICANON | ECHO);
+    /* Modify flags to disable echo and canonical mode */
+    new_settings.c_lflag &= ~(ECHO | ICANON);
+    /* Apply the new settings immediately */
     tcsetattr(STDIN_FILENO, TCSANOW, &new_settings);
 }
 
 /*
  * Restores the original terminal settings.
  */
-void enable_echo_and_canonical_mode(void) {
+void enableBuffer(void)
+{
+    /* Restore the exact settings that were saved by disableBuffer */
     tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
 }

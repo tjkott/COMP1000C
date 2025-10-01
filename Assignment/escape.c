@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "game.h"
 #include "terminal.h"
+#include "newSleep.h"
 
 int main(int argc, char* argv[]) {
     GameState* game;
@@ -23,22 +24,18 @@ int main(int argc, char* argv[]) {
         return 1; /* Error message already printed */
     }
 
-    disable_echo_and_canonical_mode();
+    disableBuffer();
 
     while (game->game_over == 0) {
         print_game_state(game);
         input = getchar();
         process_input(game, input);
+        newSleep(0.01f); /* Small delay for better responsiveness */
     }
 
-    enable_echo_and_canonical_mode();
-    print_game_state(game); /* Show final state */
-
-    if (game->game_over == 1) {
-        printf("\nYou win!\n");
-    } else {
-        printf("\nYou lose!\n");
-    }
+    enableBuffer();
+    
+    /* Final win/loss messages and delays are handled in game.c */
     
     free_game_state(game);
 

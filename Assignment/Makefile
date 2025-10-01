@@ -1,69 +1,52 @@
-# Makefile for the escape game, following the lecture's recommended format.
+# Makefile for the escape game
 #
 # --- Usage ---
-# To compile: make
-# To clean:   make clean
+# To compile the entire program, simply run the command: make
+# To remove all generated files, run: make clean
 
-# --- Variables ---
-
-# Compiler to use
+# Compiler and flags
 CC = gcc
-
-# Compiler flags:
-# -Wall:      Enable all warnings
-# -pedantic:  Enforce strict ISO C compliance
-# -ansi:      Use the C89 standard
-# -g:         Include debugging information
 CFLAGS = -Wall -pedantic -ansi -g
 
-# The final executable file name
+# Executable name
 EXEC = escape
 
-# A list of all object files required to build the executable
-OBJS = escape.o game.o map.o linked_list.o terminal.o undo.o
+# A list of all object files needed for the final executable
+OBJS = escape.o game.o map.o linked_list.o terminal.o undo.o color.o newSleep.o
 
-# --- Targets ---
-
-# The 'all' target is the default. It depends on the final executable.
-# Running 'make' will invoke this target.
+# The default target. Running 'make' will build the executable.
 all: $(EXEC)
 
-# Rule for linking all object files (.o) into the final executable.
-# This target depends on all the object files listed in $(OBJS).
+# Rule to link all the object files into the final executable
 $(EXEC): $(OBJS)
 	$(CC) $(OBJS) -o $(EXEC)
 
-# --- Compilation Rules ---
+# --- Rules to compile individual source files into object files ---
 
-# Rule to compile escape.c into escape.o
-# It depends on the source file and all header files it includes.
-escape.o: escape.c game.h terminal.h
+escape.o: escape.c game.h terminal.h newSleep.h
 	$(CC) $(CFLAGS) -c escape.c
 
-# Rule to compile game.c into game.o
-game.o: game.c game.h map.h undo.h
+game.o: game.c game.h map.h linked_list.h undo.h color.h newSleep.h
 	$(CC) $(CFLAGS) -c game.c
 
-# Rule to compile map.c into map.o
-map.o: map.c map.h
+map.o: map.c map.h color.h
 	$(CC) $(CFLAGS) -c map.c
 
-# Rule to compile linked_list.c into linked_list.o
 linked_list.o: linked_list.c linked_list.h
 	$(CC) $(CFLAGS) -c linked_list.c
 
-# Rule to compile terminal.c into terminal.o
 terminal.o: terminal.c terminal.h
 	$(CC) $(CFLAGS) -c terminal.c
 
-# Rule to compile undo.c into undo.o
 undo.o: undo.c undo.h game.h map.h linked_list.h
 	$(CC) $(CFLAGS) -c undo.c
 
-# --- Housekeeping ---
+color.o: color.c color.h
+	$(CC) $(CFLAGS) -c color.c
 
-# The 'clean' rule removes all compiled files.
-# It does not depend on any other files.
+newSleep.o: newSleep.c newSleep.h
+	$(CC) $(CFLAGS) -c newSleep.c
+
+# The 'clean' rule removes the executable and all object files.
 clean:
 	rm -f $(EXEC) $(OBJS)
-

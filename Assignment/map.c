@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "map.h"
+#include "color.h"
 
 /*
  * Loads a map from a text file into a Map struct.
@@ -31,16 +32,13 @@ Map* load_map(char* filename) {
         return NULL;
     }
 
-    /* Read map dimensions */
-    if (fscanf(file, "%d %d", &map->rows, &map->cols) != 2)
-    {
+    if (fscanf(file, "%d %d", &map->rows, &map->cols) != 2) {
         fprintf(stderr, "Error: Invalid map dimensions in file.\n");
         free(map);
         fclose(file);
         return NULL;
     }
 
-    /* Allocate memory for the grid including borders */
     map->grid = (char**)malloc((map->rows + 2) * sizeof(char*));
     if (map->grid == NULL) {
         perror("Failed to allocate memory for map grid");
@@ -53,7 +51,6 @@ Map* load_map(char* filename) {
         map->grid[i] = (char*)malloc((map->cols + 2) * sizeof(char));
         if (map->grid[i] == NULL) {
             perror("Failed to allocate memory for map row");
-            /* Clean up previously allocated rows */
             for (j = 0; j < i; j++) {
                 free(map->grid[j]);
             }
@@ -64,7 +61,6 @@ Map* load_map(char* filename) {
         }
     }
 
-    /* Create borders */
     for (j = 0; j < map->cols + 2; j++) {
         map->grid[0][j] = '*';
         map->grid[map->rows + 1][j] = '*';
@@ -74,50 +70,41 @@ Map* load_map(char* filename) {
         map->grid[i][map->cols + 1] = '*';
     }
 
-    /* Read map content by converting integer codes to characters */
     for (i = 1; i < map->rows + 1; i++) {
         for (j = 1; j < map->cols + 1; j++) {
-            if(fscanf(file, "%d", &object_code) == 1)
-            {
-                switch (object_code) {
-                    case 0: map->grid[i][j] = ' '; break; /* Path */
-                    case 1: map->grid[i][j] = 'O'; break; /* Wall */
-                    case 2: map->grid[i][j] = '!'; break; /* Water */
-                    case 3: map->grid[i][j] = 'X'; break; /* Trapdoor */
-                    case 4: map->grid[i][j] = '@'; break; /* Trap */
-                    case 5: map->grid[i][j] = 'P'; break; /* Player */
-                    case 6: map->grid[i][j] = 'G'; break; /* Goal */
-                    default: map->grid[i][j] = ' '; break; /* Default to path */
-                }
-            }
-            else
-            {
+            if (fscanf(file, "%d", &object_code) != 1) {
                 map->grid[i][j] = ' '; /* Default if read fails */
+                continue;
+            }
+            switch (object_code) {
+                case 0: map->grid[i][j] = ' '; break;
+                case 1: map->grid[i][j] = 'O'; break;
+                case 2: map->grid[i][j] = '!'; break;
+                case 3: map->grid[i][j] = 'X'; break;
+                case 4: map->grid[i][j] = '@'; break;
+                case 5: map->grid[i][j] = 'P'; break;
+                case 6: map->grid[i][j] = 'G'; break;
+                default: map->grid[i][j] = ' '; break;
             }
         }
     }
 
     fclose(file);
     return map;
-} /* This was the missing closing brace */
+}
 
-/*
- * Frees the 2D char array used for the map grid.
- */
 void free_map_grid(char** grid, int rows) {
     int i;
     if (grid != NULL) {
         for (i = 0; i < rows; i++) {
-            free(grid[i]);
+            if (grid[i] != NULL) {
+                free(grid[i]);
+            }
         }
         free(grid);
     }
 }
 
-
-/*
- * Frees all memory associated with a Map struct.
- */
 void free_map(Map* map) {
     if (map != NULL) {
         free_map_grid(map->grid, map->rows + 2);
@@ -125,26 +112,28 @@ void free_map(Map* map) {
     }
 }
 
-/*
- * Prints the map to the console with colors.
- */
 void print_map(Map* map) {
     int i, j;
-    /* Clear the screen before printing */
-    printf("\033[2J\033[H");
+    printf("\033[2J\033[H"); /* Clear screen */
     
     for (i = 0; i < map->rows + 2; i++) {
         for (j = 0; j < map->cols + 2; j++) {
             char c = map->grid[i][j];
             switch (c) {
-                case '@': /* Trap */
-                    printf("\x1b[41m%c\x1b[0m", c); /* Red background */
+                case '@':
+                    setBackground("red");
+                    printf("%c", c);
+                    setBackground("reset");
                     break;
-                case 'G': /* Goal */
-                    printf("\x1b[42m%c\x1b[0m", c); /* Green background */
+                case 'G':
+                    setBackground("green");
+                    printf("%c", c);
+                    setBackground("reset");
                     break;
-                case '!': /* Water */
-                    printf("\x1b[44m%c\x1b[0m", c); /* Blue background */
+                case '!':
+                    setBackground("blue");
+                    printf("%c", c);
+                    setBackground("reset");
                     break;
                 default:
                     printf("%c", c);
@@ -153,12 +142,9 @@ void print_map(Map* map) {
         }
         printf("\n");
     }
-    printf("Press 'w', 's', 'a', 'd' to move, 'u' to undo.\n");
+    printf("Press 'w','s','a','d' to move, 'u' to undo.\n");
 }
 
-/*
- * Finds the first occurrence of a character on the map.
- */
 void find_char(Map* map, char target, int* row, int* col) {
     int i, j;
     *row = -1;
@@ -174,9 +160,6 @@ void find_char(Map* map, char target, int* row, int* col) {
     }
 }
 
-/*
- * Replaces all occurrences of a character on the map.
- */
 void replace_char(Map* map, char target, char replacement) {
     int i, j;
     for (i = 1; i < map->rows + 1; i++) {
@@ -188,9 +171,6 @@ void replace_char(Map* map, char target, char replacement) {
     }
 }
 
-/*
- * Creates a deep copy of a map's grid data.
- */
 char** copy_map_data_from_source(Map* source_map) {
     int i, j;
     char** new_grid;
@@ -207,7 +187,6 @@ char** copy_map_data_from_source(Map* source_map) {
     for (i = 0; i < source_map->rows + 2; i++) {
         new_grid[i] = (char*)malloc((source_map->cols + 2) * sizeof(char));
         if (new_grid[i] == NULL) {
-            /* Clean up previously allocated memory */
             for (j = 0; j < i; j++) {
                 free(new_grid[j]);
             }
@@ -220,4 +199,3 @@ char** copy_map_data_from_source(Map* source_map) {
     }
     return new_grid;
 }
-

@@ -18,7 +18,12 @@ typedef struct {
     Node* head;
 } LinkedList;
 
-/* Typedef for a function pointer used to free data stored in the list */
+/*
+ * This is a typedef for a function pointer. It defines a new type,
+ * FreeDataFunc, which represents any function that takes a void pointer
+ * as an argument and returns nothing. We use this to allow the
+ * linked list to free any kind of data it might be storing.
+ */
 typedef void (*FreeDataFunc)(void* data);
 
 /* Function prototypes for linked list operations */
@@ -28,4 +33,3 @@ void insert_first(LinkedList* list, void* data);
 void* remove_first(LinkedList* list, int* error);
 
 #endif /* LINKED_LIST_H */
-

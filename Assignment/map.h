@@ -25,4 +25,3 @@ char** copy_map_data_from_source(Map* source_map);
 void free_map_grid(char** grid, int rows);
 
 #endif /* MAP_H */
-

@@ -82,4 +82,3 @@ void setBackground(char * color)
         printf("\033[49m");
     }
 }
-
