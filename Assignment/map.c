@@ -114,7 +114,8 @@ void free_map(Map* map) {
 
 void print_map(Map* map) {
     int i, j;
-    printf("\033[2J\033[H"); /* Clear screen */
+    printf("\033[2J\033[H"); 
+    system("clear"); 
     
     for (i = 0; i < map->rows + 2; i++) {
         for (j = 0; j < map->cols + 2; j++) {
