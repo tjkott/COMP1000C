@@ -5,8 +5,8 @@
  * Handles command-line arguments, initializes the game,
  * and runs the main game loop.
  */
-#include <stdio.h> 
-#include "game.h" 
+#include <stdio.h>
+#include "game.h"
 #include "terminal.h"
 #include "newSleep.h"
 

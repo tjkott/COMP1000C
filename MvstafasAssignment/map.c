@@ -11,31 +11,27 @@
 #include "color.h"
 
 /*
- * Loads a map from a text file into a Map structure. 
- * REad the map's deminesions and content 
- * Dynamically alloate memory for map.
- * Return a pointer to fully contructed map structure. 
+ * Loads a map from a text file into a Map struct.
  */
 Map* loadMap(char* filename) {
-    FILE* file; /* file pointer for handling map file*/
+    FILE* file;
     Map* map;
     int i, j;
-    int objectcode; 
+    int object_code;
 
-    file = fopen(filename, "r"); /* opens map file*/
-    if (file == NULL) { /* safety check to see if the file exists*/
+    file = fopen(filename, "r");
+    if (file == NULL) {
         perror("Error opening map file");
-        return NULL; 
+        return NULL;
     }
 
-    map = (Map*)malloc(sizeof(Map)); /* malloc for map struct*/
+    map = (Map*)malloc(sizeof(Map));
     if (map == NULL) {
         perror("Failed to allocate memory for map");
         fclose(file);
         return NULL;
     }
-    
-    /* Read first 2 integers from the file (rows and col)*/
+
     if (fscanf(file, "%d %d", &map->rows, &map->cols) != 2) {
         fprintf(stderr, "Error: Invalid map dimensions in file.\n");
         free(map);
@@ -76,11 +72,11 @@ Map* loadMap(char* filename) {
 
     for (i = 1; i < map->rows + 1; i++) {
         for (j = 1; j < map->cols + 1; j++) {
-            if (fscanf(file, "%d", &objectcode) != 1) {
+            if (fscanf(file, "%d", &object_code) != 1) {
                 map->grid[i][j] = ' '; /* Default if read fails */
                 continue;
             }
-            switch (objectcode) {
+            switch (object_code) {
                 case 0: map->grid[i][j] = ' '; break;
                 case 1: map->grid[i][j] = 'O'; break;
                 case 2: map->grid[i][j] = '!'; break;

@@ -6,4 +6,5 @@ than once during compilation.*/
 void setForeground(char * color); /* Function prototype*/
 void setBackground(char * color);
 
-#endif 
+#endif
+

@@ -50,14 +50,12 @@ void freeLinkedList(LinkedList* list, FreeDataFunc free_data) {
  * Inserts a new node at the beginning of the list.
  */
 void insertFirst(LinkedList* list, void* data) {
-    
-    Node* newnode = (Node*)malloc(sizeof(Node)); /* Allocate memory for new node*/
-    
-    /* Safety check if malloc was successful*/
-    if (newnode != NULL) {
-        newnode->data = data;
-        newnode->next = list->head;
-        list->head = newnode;
+    /* Allocate memory */
+    Node* new_node = (Node*)malloc(sizeof(Node)); 
+    if (new_node != NULL) {
+        new_node->data = data;
+        new_node->next = list->head;
+        list->head = new_node;
     }
 }
 
@@ -65,8 +63,8 @@ void insertFirst(LinkedList* list, void* data) {
  * Removes and returns the data from the first node of the list.
  */
 void* removeFirst(LinkedList* list, int* error) {
-    void* data = NULL; /* void pointer to hold the data from removed node. */
-    Node* temp; /* void pointer to hold node being removed. */
+    void* data = NULL;
+    Node* temp;
 
     if (list != NULL && list->head != NULL) {
         temp = list->head;
