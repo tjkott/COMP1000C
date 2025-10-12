@@ -12,7 +12,7 @@
 
 /*
  * Loads a map from a text file into a Map structure. 
- * REad the map's dimensions and content 
+ * REad the map's deminesions and content 
  * Dynamically alloate memory for map.
  * Return a pointer to fully contructed map structure. 
  */
@@ -43,7 +43,6 @@ Map* loadMap(char* filename) {
         return NULL;
     }
 
-    /* memory for the 2 rows of top and bottom borders*/
     map->grid = (char**)malloc((map->rows + 2) * sizeof(char*));
     if (map->grid == NULL) {
         perror("Failed to allocate memory for map grid");
@@ -52,7 +51,6 @@ Map* loadMap(char* filename) {
         return NULL;
     }
 
-    /* Allocate memory for columns*/
     for (i = 0; i < map->rows + 2; i++) {
         map->grid[i] = (char*)malloc((map->cols + 2) * sizeof(char));
         if (map->grid[i] == NULL) {
@@ -67,7 +65,6 @@ Map* loadMap(char* filename) {
         }
     }
 
-
     for (j = 0; j < map->cols + 2; j++) {
         map->grid[0][j] = '*';
         map->grid[map->rows + 1][j] = '*';
@@ -76,7 +73,7 @@ Map* loadMap(char* filename) {
         map->grid[i][0] = '*';
         map->grid[i][map->cols + 1] = '*';
     }
-    /* Loop reads the integer codes and populates playable area of the map. */
+
     for (i = 1; i < map->rows + 1; i++) {
         for (j = 1; j < map->cols + 1; j++) {
             if (fscanf(file, "%d", &objectcode) != 1) {
@@ -84,26 +81,23 @@ Map* loadMap(char* filename) {
                 continue;
             }
             switch (objectcode) {
-                case 0: map->grid[i][j] = ' '; break; /* Path*/
-                case 1: map->grid[i][j] = 'O'; break; /* Wall*/
-                case 2: map->grid[i][j] = '!'; break;/* Water*/
-                case 3: map->grid[i][j] = 'X'; break;/* Trapdoor*/
-                case 4: map->grid[i][j] = '@'; break; /* Trap*/
-                case 5: map->grid[i][j] = 'P'; break;/* Player*/
-                case 6: map->grid[i][j] = 'G'; break; /* Goal*/
-                default: map->grid[i][j] = ' '; break; /* default*/
+                case 0: map->grid[i][j] = ' '; break;
+                case 1: map->grid[i][j] = 'O'; break;
+                case 2: map->grid[i][j] = '!'; break;
+                case 3: map->grid[i][j] = 'X'; break;
+                case 4: map->grid[i][j] = '@'; break;
+                case 5: map->grid[i][j] = 'P'; break;
+                case 6: map->grid[i][j] = 'G'; break;
+                default: map->grid[i][j] = ' '; break;
             }
         }
     }
+
     fclose(file);
     return map;
 }
 
-/*
-* Frees the memory of map grid. 
-* Used in undo.c and freeMap() functions. 
-*/
-void freeMapGrid(char** grid, int rows) {
+void free_map_grid(char** grid, int rows) {
     int i;
     if (grid != NULL) {
         for (i = 0; i < rows; i++) {
@@ -115,28 +109,22 @@ void freeMapGrid(char** grid, int rows) {
     }
 }
 
-/*
-* Free memory of map structure
-*/
-void freeMap(Map* map) {
+void free_map(Map* map) {
     if (map != NULL) {
-        freeMapGrid(map->grid, map->rows + 2);
+        free_map_grid(map->grid, map->rows + 2);
         free(map);
     }
 }
 
-/*
-* Print map to the terminal.
-*/
-void printMap(Map* map) {
+void print_map(Map* map) {
     int i, j;
-    printf("\033[2J\033[H"); /* Clear terminal and move cursor to top left. */
-    system("clear"); /* Clear terminal*/
+    printf("\033[2J\033[H"); 
+    system("clear"); 
     
-    for (i = 0; i < map->rows + 2; i++) { /* loop every row*/
-        for (j = 0; j < map->cols + 2; j++) { /* loop every col*/
+    for (i = 0; i < map->rows + 2; i++) {
+        for (j = 0; j < map->cols + 2; j++) {
             char c = map->grid[i][j];
-            switch (c) { /* if any characters need coloour formatting. */
+            switch (c) {
                 case '@':
                     setBackground("red");
                     printf("%c", c);
@@ -162,12 +150,7 @@ void printMap(Map* map) {
     printf("Press 'w','s','a','d' to move, 'u' to undo.\n");
 }
 
-/*
-* Foinds the coordinates of the first occurence of a character in the map.
-* In order to find the initial position of the player. 
-* Called by game.c
-*/
-void findChar(Map* map, char target, int* row, int* col) {
+void find_char(Map* map, char target, int* row, int* col) {
     int i, j;
     *row = -1;
     *col = -1;
@@ -182,11 +165,7 @@ void findChar(Map* map, char target, int* row, int* col) {
     }
 }
 
-/*
-* Replaces all occurences of a particular character with a different replacement character. 
-* Used in game.c to remove all '@' and 'X'. 
-*/
-void replaceChar(Map* map, char target, char replacement) {
+void replace_char(Map* map, char target, char replacement) {
     int i, j;
     for (i = 1; i < map->rows + 1; i++) {
         for (j = 1; j < map->cols + 1; j++) {
@@ -197,35 +176,31 @@ void replaceChar(Map* map, char target, char replacement) {
     }
 }
 
-/*
-* Saves a concrete copy of the map by allocating memory. 
-* Allows undo.c to save snapshots of the map. 
-*/
-char** copy_map_data_from_source(Map* sourcemap) {
+char** copy_map_data_from_source(Map* source_map) {
     int i, j;
-    char** newgrid;
+    char** new_grid;
 
-    if (sourcemap == NULL || sourcemap->grid == NULL) {
+    if (source_map == NULL || source_map->grid == NULL) {
         return NULL;
     }
 
-    newgrid = (char**)malloc((sourcemap->rows + 2) * sizeof(char*)); 
-    if (newgrid == NULL) { /* ensure malloc hasn't failed. */
+    new_grid = (char**)malloc((source_map->rows + 2) * sizeof(char*));
+    if (new_grid == NULL) {
         return NULL;
     }
 
-    for (i = 0; i < sourcemap->rows + 2; i++) {
-        newgrid[i] = (char*)malloc((sourcemap->cols + 2) * sizeof(char));
-        if (newgrid[i] == NULL) {
+    for (i = 0; i < source_map->rows + 2; i++) {
+        new_grid[i] = (char*)malloc((source_map->cols + 2) * sizeof(char));
+        if (new_grid[i] == NULL) {
             for (j = 0; j < i; j++) {
-                free(newgrid[j]);
+                free(new_grid[j]);
             }
-            free(newgrid);
+            free(new_grid);
             return NULL;
         }
-        for (j = 0; j < sourcemap->cols + 2; j++) {
-            newgrid[i][j] = sourcemap->grid[i][j];
+        for (j = 0; j < source_map->cols + 2; j++) {
+            new_grid[i][j] = source_map->grid[i][j];
         }
     }
-    return newgrid;
+    return new_grid;
 }

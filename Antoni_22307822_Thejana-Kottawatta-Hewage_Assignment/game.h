@@ -1,6 +1,7 @@
 /*
  * game.h
  *
+ * Header file for the main game logic.
  * Defines the GameState struct and functions for managing the game.
  */
 
@@ -11,6 +12,7 @@
 #include "undo.h"
 #include "linked_list.h"
 
+/* The main struct to hold all information about the current game state */
 typedef struct GameState {
     Map* map;
     int player_row;
@@ -20,6 +22,7 @@ typedef struct GameState {
     UndoHistory* undo_history;
 } GameState;
 
+/* Function prototypes for game operations */
 GameState* create_game_state(char* map_filename);
 void free_game_state(GameState* game);
 void print_game_state(GameState* game);

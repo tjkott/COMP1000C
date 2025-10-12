@@ -65,15 +65,11 @@ void restore_game_state(UndoHistory* history, struct GameState* current_state) {
 
     if (history->history_list->head != NULL && history->history_list->head->next != NULL) {
         free_undo_state(removeFirst(history->history_list, NULL));
-
         last_state = (UndoState*)history->history_list->head->data;
-
         current_state->player_row = last_state->player_row;
         current_state->player_col = last_state->player_col;
         current_state->trap_triggered = last_state->trap_triggered;
-
         free_map_grid(current_state->map->grid, current_state->map->rows + 2);
-        
         current_state->map->grid = copy_map_data_from_source(last_state->map_snapshot);
     }
 }

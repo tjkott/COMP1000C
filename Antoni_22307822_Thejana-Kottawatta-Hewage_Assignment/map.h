@@ -8,7 +8,8 @@
 #ifndef MAP_H
 #define MAP_H
 
-typedef struct { /* Structure to represent the game map */
+/* Represents the game map */
+typedef struct {
     int rows;
     int cols;
     char** grid;
@@ -16,11 +17,11 @@ typedef struct { /* Structure to represent the game map */
 
 /* Function prototypes for map operations */
 Map* loadMap(char* filename);
-void freeMap(Map* map);
-void printMap(Map* map);
-void findChar(Map* map, char target, int* row, int* col);
-void replaceChar(Map* map, char target, char replacement);
+void free_map(Map* map);
+void print_map(Map* map);
+void find_char(Map* map, char target, int* row, int* col);
+void replace_char(Map* map, char target, char replacement);
 char** copy_map_data_from_source(Map* source_map);
-void freeMapGrid(char** grid, int rows);
+void free_map_grid(char** grid, int rows);
 
 #endif /* MAP_H */

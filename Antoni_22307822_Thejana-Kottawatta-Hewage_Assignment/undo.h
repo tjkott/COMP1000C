@@ -1,6 +1,7 @@
 /*
  * undo.h
  *
+ * Header file for the undo functionality.
  * Manages the history of game states using a linked list.
  */
 #ifndef UNDO_H
@@ -25,10 +26,10 @@ typedef struct UndoHistory {
     LinkedList* history_list;
 } UndoHistory;
 
-/*for managing undo history */
+/* Function prototypes for managing undo history */
 UndoHistory* create_undo_history(void);
 void free_undo_history(UndoHistory* history);
 void save_game_state(UndoHistory* history, struct GameState* current_state);
 void restore_game_state(UndoHistory* history, struct GameState* current_state);
 
-#endif
+#endif /* UNDO_H */

@@ -1,6 +1,5 @@
 /*
  * linked_list.c
- *
  * Singly linked list for the game. 
  */
 
@@ -28,10 +27,14 @@ void freeLinkedList(LinkedList* list, FreeDataFunc free_data) {
     Node* current; /* Pointer to a node.*/
     Node* next; /* Stores the next node before current node is freed.*/
     
+    /* Safety check to see if pointer isn't NULL*/
     if (list != NULL) { 
         current = list->head;
+
+        /* Iterate till end of line.*/
         while (current != NULL) {
             next = current->next; 
+
             /* Safety check to see if func pointer for freeing data isn't NULL.*/
             if (free_data != NULL) {
                 free_data(current->data);
@@ -64,6 +67,7 @@ void insertFirst(LinkedList* list, void* data) {
 void* removeFirst(LinkedList* list, int* error) {
     void* data = NULL; /* void pointer to hold the data from removed node. */
     Node* temp; /* void pointer to hold node being removed. */
+
     if (list != NULL && list->head != NULL) {
         temp = list->head;
         data = temp->data;

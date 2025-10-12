@@ -1,8 +1,4 @@
 # Makefile for the escape game
-#
-# --- Usage ---
-# To compile the entire program, simply run the command: make
-# To remove all generated files, run: make clean
 
 # Compiler and flags
 CC = gcc
@@ -11,17 +7,17 @@ CFLAGS = -Wall -pedantic -ansi -g
 # Executable name
 EXEC = escape
 
-# A list of all object files needed for the final executable
+# Object files
 OBJS = escape.o game.o map.o linked_list.o terminal.o undo.o color.o newSleep.o
 
-# The default target. Running 'make' will build the executable.
+# Targets
 all: $(EXEC)
 
-# Rule to link all the object files into the final executable
+# Default target. 
 $(EXEC): $(OBJS)
 	$(CC) $(OBJS) -o $(EXEC)
 
-# --- Rules to compile individual source files into object files ---
+# Compilation rules
 
 escape.o: escape.c game.h terminal.h newSleep.h
 	$(CC) $(CFLAGS) -c escape.c
@@ -47,6 +43,6 @@ color.o: color.c color.h
 newSleep.o: newSleep.c newSleep.h
 	$(CC) $(CFLAGS) -c newSleep.c
 
-# The 'clean' rule removes the executable and all object files.
+# Housekeeping
 clean:
 	rm -f $(EXEC) $(OBJS)

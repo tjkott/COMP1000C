@@ -1,5 +1,5 @@
 /*
- * color.c
+ * color.c - Functions to control the forehourd and background colors. 
  *
  */
 
@@ -12,7 +12,7 @@ void setForeground(char * color)
 {
     if(strcmp(color, "black") == 0)
     {
-        printf("\033[30m");
+        printf("\033[30m"); /*ANSI escape code */
     }
     else if(strcmp(color, "red") == 0)
     {

@@ -1,7 +1,6 @@
-#define _DEFAULT_SOURCE 
+#define _DEFAULT_SOURCE
 #include <time.h>
 #include "newSleep.h"
-
 void newSleep(float sec)
 {
 	struct timespec ts;
