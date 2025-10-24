@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     } else {
         game = create_game_state(argv[1]);
         if (game == NULL) {
-            return_code = 1; /* Error message already printed */
+            return_code = 1; 
         }
     }
     if (return_code == 0) {
@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
             print_game_state(game);
             input = getchar();
             process_input(game, input);
-            newSleep(0.01f); /* Small delay for better responsiveness */
+            newSleep(0.01f); /* brief delay */
         }
         enableBuffer();
         free_game_state(game);

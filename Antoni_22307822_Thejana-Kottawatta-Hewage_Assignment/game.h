@@ -1,7 +1,5 @@
 /*
- * game.h
- *
- * Header file for the main game logic.
+ * game.h 
  * Defines the GameState struct and functions for managing the game.
  */
 

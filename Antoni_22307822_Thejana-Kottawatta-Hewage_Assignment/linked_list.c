@@ -1,6 +1,7 @@
 /*
  * linked_list.c
- * Singly linked list for the game. 
+ *
+ * Implements a generic singly linked list.
  */
 
 #include <stdlib.h>
@@ -9,74 +10,66 @@
 /*
  * Creates and returns a new empty linked list.
  */
-LinkedList* createLinkedList(void) {
-    /* For one LinkedList struct, allocate memory on the heap.*/
+LinkedList* create_linked_list(void) {
     LinkedList* list = (LinkedList*)malloc(sizeof(LinkedList));
-    
-    /* Safety check if malloc was sucessful.*/
     if (list != NULL) {
         list->head = NULL;
     }
-    return list; 
+    return list;
 }
 
 /*
  * Frees all memory associated with a linked list, including its nodes and data.
  */
-void freeLinkedList(LinkedList* list, FreeDataFunc free_data) {
-    Node* current; /* Pointer to a node.*/
-    Node* next; /* Stores the next node before current node is freed.*/
-    
-    /* Safety check to see if pointer isn't NULL*/
-    if (list != NULL) { 
+void free_linked_list(LinkedList* list, FreeDataFunc free_data) {
+    Node* current;
+    Node* next;
+
+    if (list != NULL) {
         current = list->head;
-
-        /* Iterate till end of line.*/
         while (current != NULL) {
-            next = current->next; 
-
-            /* Safety check to see if func pointer for freeing data isn't NULL.*/
+            next = current->next;
             if (free_data != NULL) {
                 free_data(current->data);
             }
-            free(current); 
+            free(current);
             current = next;
         }
-        free(list); /* Free the LinkedList structure itself. */
+        free(list);
     }
 }
 
 /*
  * Inserts a new node at the beginning of the list.
  */
-void insertFirst(LinkedList* list, void* data) {
-    
-    Node* newnode = (Node*)malloc(sizeof(Node)); /* Allocate memory for new node*/
-    
-    /* Safety check if malloc was successful*/
-    if (newnode != NULL) {
-        newnode->data = data;
-        newnode->next = list->head;
-        list->head = newnode;
+void insert_first(LinkedList* list, void* data) {
+    Node* new_node = (Node*)malloc(sizeof(Node));
+    if (new_node != NULL) {
+        new_node->data = data;
+        new_node->next = list->head;
+        list->head = new_node;
     }
 }
 
 /*
  * Removes and returns the data from the first node of the list.
  */
-void* removeFirst(LinkedList* list, int* error) {
-    void* data = NULL; /* void pointer to hold the data from removed node. */
-    Node* temp; /* void pointer to hold node being removed. */
+void* remove_first(LinkedList* list, int* error) {
+    void* data = NULL;
+    Node* temp;
+
+    /* Default error state is 'no error' */
+    if (error != NULL) {
+        *error = 0;
+    }
 
     if (list != NULL && list->head != NULL) {
         temp = list->head;
         data = temp->data;
         list->head = temp->next;
         free(temp);
-        if (error != NULL) {
-            *error = 0;
-        }
     } else {
+        /* Set error state if list was empty */
         if (error != NULL) {
             *error = 1; /* List is empty */
         }

@@ -1,30 +1,31 @@
 /*
  * linked_list.h
+ * Header file for a generic linked list implementation.
  */
 
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
-/* A node (each element in the linked list) */
+#include <stdlib.h> /* Needed for NULL definition */
+
+/* A node in the linked list */
 typedef struct Node {
-    void* data; /* void pointer to hold data for node.*/
-    struct Node* next; /* pointer to next node in the list. */
+    void* data;
+    struct Node* next;
 } Node;
 
-/* LinkedList structs represents the entire list.*/
+/* The linked list structure */
 typedef struct {
-    Node* head; 
+    Node* head;
 } LinkedList;
 
-/* Define a new type, FreeDataFunc, which represents any function that takes a void pointer
- * as an argument and returns nothing. We use this to allow the
- * linked list to free any kind of data it might be storing.
- */
+/* Typedef for a function pointer used to free data stored in the list */
 typedef void (*FreeDataFunc)(void* data);
 
-LinkedList* createLinkedList(void); /* Declared createLinkedList function and returns a pointer to Liinkedlist*/
-void freeLinkedList(LinkedList* list, FreeDataFunc free_data);
-void insertFirst(LinkedList* list, void* data);
-void* removeFirst(LinkedList* list, int* error);
+/* Function prototypes for linked list operations */
+LinkedList* create_linked_list(void);
+void free_linked_list(LinkedList* list, FreeDataFunc free_data);
+void insert_first(LinkedList* list, void* data);
+void* remove_first(LinkedList* list, int* error);
 
 #endif /* LINKED_LIST_H */
